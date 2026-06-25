@@ -1,0 +1,190 @@
+{
+  "eval_set_id": "skill_generator_test_set",
+  "name": "skill_generator test set",
+  "description": "Evaluation set for skill-generator meta-skill",
+  "eval_cases": [
+    {
+      "eval_id": "skill_generator_case_001_positive",
+      "conversation": [
+        {
+          "invocation_id": "invocation_001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "新しいスキル json-parser を draft_only に作成してください。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "新しいスキル 'json-parser' の雛形を作成します。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "run_command",
+                "args": {
+                  "CommandLine": "python skills/read_only/skill_generator/scripts/scaffold.py --name json-parser --description \"Parses JSON files\" --instructions \"## Usage\" --output-dir ./skills/draft_only"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "skill_generator_case_002_positive",
+      "conversation": [
+        {
+          "invocation_id": "invocation_002",
+          "user_content": {
+            "parts": [
+              {
+                "text": "ユーザーの要望：CSVファイルをプロットする csv-plotter スキルを作成して。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "スキル 'csv-plotter' を作成します。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "run_command",
+                "args": {
+                  "CommandLine": "python skills/read_only/skill_generator/scripts/scaffold.py --name csv-plotter --description \"Plots CSV data\" --instructions \"## Usage\" --output-dir ./skills/read_only"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "skill_generator_case_003_positive",
+      "conversation": [
+        {
+          "invocation_id": "invocation_003",
+          "user_content": {
+            "parts": [
+              {
+                "text": "以下の設定JSONを使って、新しいスキル pdf-extractor を ./skills/draft_only 配下に生成して。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "設定ファイルを用いて、スキル 'pdf-extractor' を生成します。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "run_command",
+                "args": {
+                  "CommandLine": "python skills/read_only/skill_generator/scripts/scaffold.py --config skills/read_only/skill_generator/scripts/temp_config.json"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "skill_generator_case_004_negative",
+      "conversation": [
+        {
+          "invocation_id": "invocation_004",
+          "user_content": {
+            "parts": [
+              {
+                "text": "美味しいラーメンの作り方を教えてください。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "このスキルはスキルの新規生成のみをサポートしています。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": []
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "skill_generator_case_005_negative",
+      "conversation": [
+        {
+          "invocation_id": "invocation_005",
+          "user_content": {
+            "parts": [
+              {
+                "text": "csv-converter スキルを read_only に評価してください。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "スキルの評価は skill-evaluator を使用してください。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": []
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "skill_generator_case_006_negative",
+      "conversation": [
+        {
+          "invocation_id": "invocation_006",
+          "user_content": {
+            "parts": [
+              {
+                "text": "text-processor を action_allowed に昇格させて。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "スキルの昇格は skill-manager を使用してください。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": []
+          }
+        }
+      ]
+    }
+  ]
+}

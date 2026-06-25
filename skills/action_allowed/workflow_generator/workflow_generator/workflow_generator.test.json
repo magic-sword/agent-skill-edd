@@ -1,0 +1,190 @@
+{
+  "eval_set_id": "workflow_generator_test_set",
+  "name": "workflow_generator test set",
+  "description": "Evaluation set for workflow-generator meta-skill",
+  "eval_cases": [
+    {
+      "eval_id": "workflow_generator_case_001_pos",
+      "conversation": [
+        {
+          "invocation_id": "invocation_001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "csv-converterとparserを繋いだdata-processing-workflowという名前のワークフローを作ってください。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "ワークフロー 'data-processing-workflow' を生成しました。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "run_command",
+                "args": {
+                  "CommandLine": "python skills/action_allowed/workflow_generator/scripts/scaffold_workflow.py --config skills/action_allowed/workflow_generator/scripts/temp_workflow_config.json"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "workflow_generator_case_002_pos",
+      "conversation": [
+        {
+          "invocation_id": "invocation_002",
+          "user_content": {
+            "parts": [
+              {
+                "text": "JSON変換ノードとフィルタリングノードをDAGで接続したjson-filter-workflowを作成してください。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "ワークフロー 'json-filter-workflow' を生成しました。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "run_command",
+                "args": {
+                  "CommandLine": "python skills/action_allowed/workflow_generator/scripts/scaffold_workflow.py --config skills/action_allowed/workflow_generator/scripts/temp_workflow_config.json"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "workflow_generator_case_003_pos",
+      "conversation": [
+        {
+          "invocation_id": "invocation_003",
+          "user_content": {
+            "parts": [
+              {
+                "text": "一時JSONファイルで状態を受け渡す、API呼び出しとロギングを行うapi-log-workflowを構築して。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "ワークフロー 'api-log-workflow' を生成しました。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "run_command",
+                "args": {
+                  "CommandLine": "python skills/action_allowed/workflow_generator/scripts/scaffold_workflow.py --config skills/action_allowed/workflow_generator/scripts/temp_workflow_config.json"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "workflow_generator_case_004_negative",
+      "conversation": [
+        {
+          "invocation_id": "invocation_004",
+          "user_content": {
+            "parts": [
+              {
+                "text": "美味しいラーメンの作り方を教えてください。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "このスキルはワークフローの生成のみをサポートしています。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": []
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "workflow_generator_case_005_negative",
+      "conversation": [
+        {
+          "invocation_id": "invocation_005",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Pythonの仮想環境（venv）の作成方法を教えてください。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "このスキルはワークフローの生成のみをサポートしています。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": []
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "workflow_generator_case_006_negative",
+      "conversation": [
+        {
+          "invocation_id": "invocation_006",
+          "user_content": {
+            "parts": [
+              {
+                "text": "単純なJSONをCSVに変換する、個別スキルのcsv-converterを作って。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "単純なスキルの生成は skill-generator スキルを使用してください。本スキルは複数スキルを接続するDAGワークフローの生成専用です。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": []
+          }
+        }
+      ]
+    }
+  ]
+}

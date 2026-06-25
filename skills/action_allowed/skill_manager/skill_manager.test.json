@@ -1,0 +1,190 @@
+{
+  "eval_set_id": "skill_manager_test_set",
+  "name": "skill_manager test set",
+  "description": "Evaluation set for skill-manager meta-skill",
+  "eval_cases": [
+    {
+      "eval_id": "skill_manager_case_001_positive",
+      "conversation": [
+        {
+          "invocation_id": "invocation_001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "csv-converter を draft_only から read_only に昇格させてください。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "スキル 'csv-converter' を 'read_only' に昇格しました。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "run_command",
+                "args": {
+                  "CommandLine": "python skills/read_only/skill_manager/scripts/manage_library.py promote --skill csv-converter --to read_only"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "skill_manager_case_002_positive",
+      "conversation": [
+        {
+          "invocation_id": "invocation_002",
+          "user_content": {
+            "parts": [
+              {
+                "text": "スキルライブラリのスキル一覧を表示して。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "スキル一覧を表示します。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "run_command",
+                "args": {
+                  "CommandLine": "python skills/read_only/skill_manager/scripts/manage_library.py list"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "skill_manager_case_003_positive",
+      "conversation": [
+        {
+          "invocation_id": "invocation_003",
+          "user_content": {
+            "parts": [
+              {
+                "text": "pdf-extractor を action_allowed から read_only に降格させて。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "スキル 'pdf-extractor' を 'read_only' に降格しました。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "run_command",
+                "args": {
+                  "CommandLine": "python skills/read_only/skill_manager/scripts/manage_library.py demote --skill pdf-extractor --to read_only"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "skill_manager_case_004_negative",
+      "conversation": [
+        {
+          "invocation_id": "invocation_004",
+          "user_content": {
+            "parts": [
+              {
+                "text": "美味しいラーメン of 作り方を教えてください。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "このスキルはスキルライブラリの管理のみをサポートしています。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": []
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "skill_manager_case_005_negative",
+      "conversation": [
+        {
+          "invocation_id": "invocation_005",
+          "user_content": {
+            "parts": [
+              {
+                "text": "csv-converter スキルを read_only に評価してください。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "スキルの評価は skill-evaluator を使用してください。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": []
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "skill_manager_case_006_negative",
+      "conversation": [
+        {
+          "invocation_id": "invocation_006",
+          "user_content": {
+            "parts": [
+              {
+                "text": "新しいスキル json-parser を draft_only に作成してください。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "スキルの作成は skill-generator を使用してください。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": []
+          }
+        }
+      ]
+    }
+  ]
+}

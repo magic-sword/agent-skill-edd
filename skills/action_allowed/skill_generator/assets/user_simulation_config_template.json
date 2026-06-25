@@ -1,0 +1,25 @@
+{
+  "model_name": "gemini-2.5-flash",
+  "num_scenarios": 3,
+  "persona": "A standard user asking natural language questions related to {{skill_name}}",
+  "scenarios": [
+    {
+      "goal": "Verify that the agent correctly triggers {{skill_name}} for positive prompts.",
+      "constraints": [
+        "Ask a query that matches: {{trigger_example}}"
+      ]
+    },
+    {
+      "goal": "Verify that the agent behaves correctly under edge case requests.",
+      "constraints": [
+        "Include slightly ambiguous phrasing."
+      ]
+    },
+    {
+      "goal": "Verify that the agent rejects out-of-scope requests (Negative test).",
+      "constraints": [
+        "Ask a query related to general help that should NOT trigger {{skill_name}}."
+      ]
+    }
+  ]
+}

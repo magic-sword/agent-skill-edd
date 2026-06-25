@@ -1,0 +1,190 @@
+{
+  "eval_set_id": "workflow_manager_test_set",
+  "name": "workflow_manager test set",
+  "description": "Evaluation set for workflow-manager meta-skill",
+  "eval_cases": [
+    {
+      "eval_id": "workflow_manager_case_001_positive",
+      "conversation": [
+        {
+          "invocation_id": "invocation_001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "data-processing-workflow を draft_only から read_only に昇格させてください。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "ワークフロー 'data-processing-workflow' を 'read_only' に昇格しました。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "run_command",
+                "args": {
+                  "CommandLine": "python skills/action_allowed/workflow_manager/scripts/manage_workflows.py promote --workflow data-processing-workflow --to read_only"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "workflow_manager_case_002_positive",
+      "conversation": [
+        {
+          "invocation_id": "invocation_002",
+          "user_content": {
+            "parts": [
+              {
+                "text": "ワークフローライブラリの一覧を表示して。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "ワークフロー一覧を表示します。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "run_command",
+                "args": {
+                  "CommandLine": "python skills/action_allowed/workflow_manager/scripts/manage_workflows.py list"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "workflow_manager_case_003_positive",
+      "conversation": [
+        {
+          "invocation_id": "invocation_003",
+          "user_content": {
+            "parts": [
+              {
+                "text": "api-log-workflow を action_allowed から read_only に降格させて。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "ワークフローを降格しました。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "run_command",
+                "args": {
+                  "CommandLine": "python skills/action_allowed/workflow_manager/scripts/manage_workflows.py demote --workflow api-log-workflow --to read_only"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "workflow_manager_case_004_negative",
+      "conversation": [
+        {
+          "invocation_id": "invocation_004",
+          "user_content": {
+            "parts": [
+              {
+                "text": "美味しいラーメンの作り方を教えてください。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "このスキルはワークフローの管理のみをサポートしています。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": []
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "workflow_manager_case_005_negative",
+      "conversation": [
+        {
+          "invocation_id": "invocation_005",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Pythonのshutil.moveの使い方を説明してください。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "このスキルはワークフローの管理のみをサポートしています。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": []
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "workflow_manager_case_006_negative",
+      "conversation": [
+        {
+          "invocation_id": "invocation_006",
+          "user_content": {
+            "parts": [
+              {
+                "text": "通常のスキル csv-converter を promote して。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "スキルの管理は skill-manager を使用してください。本スキルはワークフローの管理専用です。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": []
+          }
+        }
+      ]
+    }
+  ]
+}

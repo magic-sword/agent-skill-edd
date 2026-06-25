@@ -1,0 +1,190 @@
+{
+  "eval_set_id": "workflow_evaluator_test_set",
+  "name": "workflow_evaluator test set",
+  "description": "Evaluation set for workflow-evaluator meta-skill",
+  "eval_cases": [
+    {
+      "eval_id": "workflow_evaluator_case_001_positive",
+      "conversation": [
+        {
+          "invocation_id": "invocation_001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "data-processing-workflow の品質を評価してください。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "評価が正常に完了し、合格しました。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "run_command",
+                "args": {
+                  "CommandLine": "python skills/action_allowed/workflow_evaluator/scripts/evaluate_workflow.py --workflow data-processing-workflow --target-tier draft_only"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "workflow_evaluator_case_002_positive",
+      "conversation": [
+        {
+          "invocation_id": "invocation_002",
+          "user_content": {
+            "parts": [
+              {
+                "text": "workflows/draft_only 配下にある data-processing-workflow を action_allowed 基準でテストして。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "評価が完了しました。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "run_command",
+                "args": {
+                  "CommandLine": "python skills/action_allowed/workflow_evaluator/scripts/evaluate_workflow.py --workflow data-processing-workflow --target-tier action_allowed"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "workflow_evaluator_case_003_positive",
+      "conversation": [
+        {
+          "invocation_id": "invocation_003",
+          "user_content": {
+            "parts": [
+              {
+                "text": "新しく作った api-log-workflow の E2E および実行軌跡（Tool Trajectory）評価を実行して。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "評価を実行しました。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "run_command",
+                "args": {
+                  "CommandLine": "python skills/action_allowed/workflow_evaluator/scripts/evaluate_workflow.py --workflow api-log-workflow --target-tier draft_only"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "workflow_evaluator_case_004_negative",
+      "conversation": [
+        {
+          "invocation_id": "invocation_004",
+          "user_content": {
+            "parts": [
+              {
+                "text": "美味しいラーメンの作り方を教えてください。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "このスキルはワークフローの評価のみをサポートしています。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": []
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "workflow_evaluator_case_005_negative",
+      "conversation": [
+        {
+          "invocation_id": "invocation_005",
+          "user_content": {
+            "parts": [
+              {
+                "text": "PythonでASTを解析する方法を説明してください。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "このスキルはワークフローの評価のみをサポートしています。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": []
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "workflow_evaluator_case_006_negative",
+      "conversation": [
+        {
+          "invocation_id": "invocation_006",
+          "user_content": {
+            "parts": [
+              {
+                "text": "単純な csv_converter スキルのトリガー精度を評価して。"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "単一スキルの評価は skill-evaluator を使用してください。本スキルは複数スキルを繋ぐDAGワークフローの評価専用です。"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": []
+          }
+        }
+      ]
+    }
+  ]
+}

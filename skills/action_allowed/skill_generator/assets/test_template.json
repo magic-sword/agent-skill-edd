@@ -1,0 +1,68 @@
+{
+  "eval_set_id": "{{skill_name_underscore}}_test_set",
+  "name": "{{skill_name}} test set",
+  "description": "Evaluation set for {{skill_name}}",
+  "eval_cases": [
+    {
+      "eval_id": "{{skill_name_underscore}}_case_001",
+      "conversation": [
+        {
+          "invocation_id": "invocation_001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "{{test_input_1}}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{{expected_output_1}}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "{{expected_tool_1}}",
+                "args": {
+                  "{{arg_name_1}}": "{{arg_value_1}}"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "{{skill_name_underscore}}_case_002_negative",
+      "conversation": [
+        {
+          "invocation_id": "invocation_002",
+          "user_content": {
+            "parts": [
+              {
+                "text": "{{negative_test_input_1}}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{{negative_expected_output_1}}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": []
+          }
+        }
+      ]
+    }
+  ]
+}
