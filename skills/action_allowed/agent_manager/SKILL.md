@@ -2,7 +2,7 @@
 name: agent_manager
 description: |
   エージェントライブラリ内のすべてのエージェントを管理します。
-  各エージェントのTier（Draft-Only, Read-Only, Action-Allowed）の移動（昇格・降格）、
+  各エージェントのTier（Read-Only < Draft-Only < Action-Allowed）の移動（昇格・降格）、
   およびすべてのエージェントを一覧表示することが可能です。
 version: 1.0.0
 license: MIT
@@ -13,10 +13,10 @@ require-latest-adk-validation: true
 
 # Agent Manager
 
-エージェントライブラリの各ディレクトリ（`draft_only/`, `read_only/`, `action_allowed/`）間の移動、および管理を行います。
+エージェントライブラリの各ディレクトリ（`read_only/`, `draft_only/`, `action_allowed/`）間の移動、および管理を行います。
 
 ## When to use
-- エージェントのTierを昇格（例: `draft_only` から `read_only` や `action_allowed`）または降格させたいとき。
+- エージェントのTierを昇格（例: `read_only` から `draft_only` や `action_allowed`）または降格させたいとき。
 - エージェントライブラリの全体的な状態（どのTierに何のエージェントが属しているか）を一覧で確認したいとき。
 
 ## When NOT to use

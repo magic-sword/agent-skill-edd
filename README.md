@@ -69,19 +69,19 @@ python skills/action_allowed/skill_evaluator/scripts/evaluate_skill.py --skill s
 python skills/action_allowed/skill_manager/scripts/manage_library.py promote --skill skill_generator --to draft_only
 ```
 
-### ワークフローの評価と昇格
-`workflow_evaluator` を使用して対象ワークフローの AST 実行軌跡と E2E 品質を評価します。
+### エージェントの評価と昇格
+`agent_evaluator` を使用して対象エージェントの AST 実行軌跡と E2E 品質を評価します。
 ```powershell
-# ワークフローの評価を実行
-python skills/action_allowed/workflow_evaluator/scripts/evaluate_workflow.py --workflow skill_promotion_agent --target-tier draft_only
+# エージェントの評価を実行
+python skills/action_allowed/agent_evaluator/scripts/evaluate_agent.py --agent skill_promotion_agent --target-tier draft_only
 
-# 合格したワークフローを昇格
-python skills/action_allowed/workflow_manager/scripts/manage_workflows.py promote --workflow skill_promotion_agent --to draft_only
+# 合格したエージェントを昇格
+python skills/action_allowed/agent_manager/scripts/manage_agents.py promote --agent skill_promotion_agent --to draft_only
 ```
 
-### 自動昇格ワークフローの実行
-連携ワークフローを用いて、評価から昇格までを一括で自動化します。
+### 自動昇格エージェントの実行
+連携エージェントを用いて、評価から昇格までを一括で自動化します。
 ```powershell
-# ワークフロー自動昇格連携エージェントを実行
-python agents/run.py --workflow agents/draft_only/agent_promotion_agent/scripts/run_agent.py --input skill_generation_agent --output output.json
+# エージェント自動昇格連携エージェントを実行
+python agents/run.py --agent-script agents/draft_only/agent_promotion_agent/agent.py --input skill_generation_agent --output output.json
 ```

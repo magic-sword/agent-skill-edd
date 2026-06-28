@@ -3,11 +3,11 @@ from .base_pattern import BaseEvaluationPattern
 
 class BaseTierEvaluator:
     """
-    Context for executing workflow evaluation patterns. Specifies the executing tier.
+    Context for executing agent evaluation patterns. Specifies the executing tier.
     """
-    def __init__(self, workflow_name: str, workflow_path: str, eval_cases: List[Dict[str, Any]], metadata: Dict[str, Any], target_tier: str):
-        self.workflow_name = workflow_name
-        self.workflow_path = workflow_path
+    def __init__(self, agent_name: str, agent_path: str, eval_cases: List[Dict[str, Any]], metadata: Dict[str, Any], target_tier: str):
+        self.agent_name = agent_name
+        self.agent_path = agent_path
         self.eval_cases = eval_cases
         self.metadata = metadata
         self.target_tier = target_tier

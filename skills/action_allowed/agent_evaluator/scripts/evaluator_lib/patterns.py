@@ -7,7 +7,7 @@ from .helpers import extract_trajectory_from_ast, check_trajectory
 class UnitTestPattern(BaseEvaluationPattern):
     """
     Pattern 1: Unit-Test
-    Verifies that the workflow has at least 3 test cases and has testable specificity
+    Verifies that the agent has at least 3 test cases and has testable specificity
     (at least 3 positive and 3 negative triggers).
     """
     def __init__(self, name: str = "Pattern 1: Unit-Test"):
@@ -55,7 +55,7 @@ class E2eTrajectoryPattern(BaseEvaluationPattern):
         issues = []
         
         # 1. Load test_config.json (Criteria) for scoring mode
-        test_config_path = os.path.join(context.workflow_path, "test_config.json")
+        test_config_path = os.path.join(context.agent_path, "test_config.json")
         trajectory_mode = "IN_ORDER" # Default
         if os.path.exists(test_config_path):
             try:
@@ -76,7 +76,7 @@ class E2eTrajectoryPattern(BaseEvaluationPattern):
             return False, issues
             
         # 2. Run AST trajectory analysis
-        run_agent_path = os.path.join(context.workflow_path, "scripts", "run_agent.py")
+        run_agent_path = os.path.join(context.agent_path, "scripts", "run_agent.py")
         actual_trajectory, ast_issues = extract_trajectory_from_ast(run_agent_path)
         
         if ast_issues:

@@ -8,8 +8,8 @@ from typing import List, Dict, Any, Tuple
 
 TIERS = ["read_only", "draft_only", "action_allowed"]
 
-def get_workflow_metadata(workflow_path: str) -> Tuple[Dict[str, Any], str, List[str]]:
-    skill_md_path = os.path.join(workflow_path, "SKILL.md")
+def get_agent_metadata(agent_path: str) -> Tuple[Dict[str, Any], str, List[str]]:
+    skill_md_path = os.path.join(agent_path, "SKILL.md")
     if not os.path.exists(skill_md_path):
         return None, None, ["SKILL.md not found."]
     try:
@@ -24,10 +24,10 @@ def get_workflow_metadata(workflow_path: str) -> Tuple[Dict[str, Any], str, List
         return None, None, [f"Failed to parse SKILL.md metadata: {e}"]
     return None, None, ["Invalid SKILL.md structure (missing frontmatter separator ---)."]
 
-def find_workflow(workflow_name: str, base_dir: str = "./agents") -> Tuple[str, str, str]:
+def find_agent(agent_name: str, base_dir: str = "./agents") -> Tuple[str, str, str]:
     normalized_names = {
-        workflow_name.replace("_", "-"),
-        workflow_name.replace("-", "_")
+        agent_name.replace("_", "-"),
+        agent_name.replace("-", "_")
     }
     for tier in TIERS:
         tier_dir = os.path.join(base_dir, tier)
@@ -36,17 +36,17 @@ def find_workflow(workflow_name: str, base_dir: str = "./agents") -> Tuple[str, 
         for item in os.listdir(tier_dir):
             item_path = os.path.join(tier_dir, item)
             if os.path.isdir(item_path):
-                res = get_workflow_metadata(item_path)
+                res = get_agent_metadata(item_path)
                 meta = res[0] if res else None
                 meta_name = meta.get("name") if meta else ""
                 if item in normalized_names or meta_name in normalized_names:
                     return tier, item, item_path
     return None, None, None
 
-def find_test_file(workflow_path: str) -> str:
-    for file in os.listdir(workflow_path):
+def find_test_file(agent_path: str) -> str:
+    for file in os.listdir(agent_path):
         if file.endswith(".test.json"):
-            return os.path.join(workflow_path, file)
+            return os.path.join(agent_path, file)
     return None
 
 def load_eval_cases(test_file_path: str) -> List[Dict[str, Any]]:
@@ -61,13 +61,13 @@ def load_eval_cases(test_file_path: str) -> List[Dict[str, Any]]:
         pass
     return []
 
-def check_workflow_syntax(workflow_path: str, metadata: Dict[str, Any]) -> Tuple[bool, List[str]]:
+def check_agent_syntax(agent_path: str, metadata: Dict[str, Any]) -> Tuple[bool, List[str]]:
     print("--- [Pre-check] Checking SKILL.md Syntax & Metadata ---")
     issues = []
     
-    skill_md_path = os.path.join(workflow_path, "SKILL.md")
+    skill_md_path = os.path.join(agent_path, "SKILL.md")
     if not os.path.exists(skill_md_path):
-        issues.append("SKILL.md not found in the workflow directory.")
+        issues.append("SKILL.md not found in the agent directory.")
         return False, issues
         
     try:
@@ -116,8 +116,8 @@ def extract_trajectory_from_ast(run_agent_path: str) -> Tuple[List[Dict[str, str
         class SimpleVisitor(ast.NodeVisitor):
             def visit_Assign(self, node):
                 if len(node.targets) == 1 and isinstance(node.targets[0], ast.Name):
-                    if node.targets[0].id in ["workflow", "root_agent"]:
-                        if isinstance(node.value, ast.Call) and isinstance(node.value.func, ast.Name) and node.value.func.id == "Workflow":
+                    if node.targets[0].id in ["agent", "root_agent"]:
+                        if isinstance(node.value, ast.Call) and isinstance(node.value.func, ast.Name) and node.value.func.id == "Agent":
                             for kw in node.value.keywords:
                                 if kw.arg == "edges":
                                     if isinstance(kw.value, ast.List):
@@ -155,7 +155,7 @@ def extract_trajectory_from_ast(run_agent_path: str) -> Tuple[List[Dict[str, str
                     if called_f in ["write_node_output", "read_node_input", "run_command", "write_to_file", "view_file"]:
                         trajectory.append({"tool": called_f})
     else:
-        issues.append("No Workflow edges defined in run_agent.py.")
+        issues.append("No Agent edges defined in run_agent.py.")
         
     return trajectory, issues
 

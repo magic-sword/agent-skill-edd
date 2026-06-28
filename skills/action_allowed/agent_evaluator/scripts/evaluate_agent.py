@@ -7,40 +7,40 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from evaluator_lib import (
     TIERS,
-    find_workflow,
+    find_agent,
     find_test_file,
     load_eval_cases,
-    check_workflow_syntax,
+    check_agent_syntax,
     TIER_EVALUATORS,
     helpers
 )
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Evaluate a Workflow against ADK v2.3.0 library standards.")
-    parser.add_argument("--workflow", required=True, help="Name of the workflow (kebab-case or directory name)")
-    parser.add_argument("--target-tier", choices=TIERS, default="draft_only", help="The Tier you want to graduate this workflow to")
+    parser = argparse.ArgumentParser(description="Evaluate an Agent against ADK v2.3.0 library standards.")
+    parser.add_argument("--agent", "--agent", dest="agent", required=True, help="Name of the agent (kebab-case or directory name)")
+    parser.add_argument("--target-tier", choices=TIERS, default="draft_only", help="The Tier you want to graduate this agent to")
     parser.add_argument("--base-dir", default="./agents", help="Parent directory of the agents library")
     return parser.parse_args()
 
 def main():
     args = parse_args()
     
-    # 1. Find workflow
-    current_tier, dir_name, workflow_path = find_workflow(args.workflow, args.base_dir)
-    if not workflow_path:
-        print(f"Error: Workflow '{args.workflow}' not found in the library.")
+    # 1. Find agent
+    current_tier, dir_name, agent_path = find_agent(args.agent, args.base_dir)
+    if not agent_path:
+        print(f"Error: Agent '{args.agent}' not found in the library.")
         sys.exit(1)
         
-    print(f"Evaluating Workflow '{args.workflow}' ({dir_name}/) under ADK v2.3.0 standard")
+    print(f"Evaluating Agent '{args.agent}' ({dir_name}/) under ADK v2.3.0 standard")
     print(f"  Current Tier: {current_tier.upper()}")
     print(f"  Target Tier:  {args.target_tier.upper()}")
-    print(f"  Path:         {workflow_path}\n")
+    print(f"  Path:         {agent_path}\n")
     
     # Pre-check: syntax & metadata
-    res = helpers.get_workflow_metadata(workflow_path)
+    res = helpers.get_agent_metadata(agent_path)
     metadata = res[0] if res else None
     
-    syntax_pass, syntax_issues = check_workflow_syntax(workflow_path, metadata)
+    syntax_pass, syntax_issues = check_agent_syntax(agent_path, metadata)
     if not syntax_pass:
         print("\n=== Pre-check Failed ===")
         for issue in syntax_issues:
@@ -48,9 +48,9 @@ def main():
         sys.exit(1)
         
     # Find ADK standard test file (*.test.json)
-    test_file_path = find_test_file(workflow_path)
+    test_file_path = find_test_file(agent_path)
     if not test_file_path:
-        print(f"Error: No standard test file (*.test.json) found in {workflow_path}")
+        print(f"Error: No standard test file (*.test.json) found in {agent_path}")
         sys.exit(1)
         
     print(f"  - Found test file: {os.path.basename(test_file_path)}")
@@ -62,14 +62,14 @@ def main():
         print(f"Error: Unsupported target tier: {args.target_tier}")
         sys.exit(1)
         
-    evaluator = evaluator_class(args.workflow, workflow_path, eval_cases, metadata, args.target_tier)
+    evaluator = evaluator_class(args.agent, agent_path, eval_cases, metadata, args.target_tier)
     success = evaluator.evaluate_all()
     
     if success:
-        print(f"\n[SUCCESS] Workflow '{args.workflow}' successfully evaluated and eligible for Tier '{args.target_tier}'!")
+        print(f"\n[SUCCESS] Agent '{args.agent}' successfully evaluated and eligible for Tier '{args.target_tier}'!")
         sys.exit(0)
     else:
-        print(f"\n[FAILURE] Workflow '{args.workflow}' does not meet the criteria for Tier '{args.target_tier}'.")
+        print(f"\n[FAILURE] Agent '{args.agent}' does not meet the criteria for Tier '{args.target_tier}'.")
         sys.exit(1)
 
 if __name__ == "__main__":
