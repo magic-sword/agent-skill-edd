@@ -45,7 +45,7 @@
           "user_content": {
             "parts": [
               {
-                "text": "workflows/draft_only 配下にある data-processing-workflow を action_allowed 基準でテストして。"
+                "text": "agents/draft_only 配下にある data-processing-workflow を action_allowed 基準でテストして。"
               }
             ],
             "role": "user"

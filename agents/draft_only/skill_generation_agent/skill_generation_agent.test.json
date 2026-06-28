@@ -29,7 +29,7 @@
               {
                 "name": "run_command",
                 "args": {
-                  "CommandLine": "python workflows/read_only/skill_generation_workflow/scripts/run_workflow.py --input 'name: my-auto-skill'"
+                  "CommandLine": "python agents/run.py --workflow agents/read_only/skill_generation_agent/scripts/run_agent.py --input 'name: my-auto-skill'"
                 }
               }
             ]
@@ -63,7 +63,7 @@
               {
                 "name": "run_command",
                 "args": {
-                  "CommandLine": "python workflows/read_only/skill_generation_workflow/scripts/run_workflow.py --input 'name: my-auto-skill'"
+                  "CommandLine": "python agents/run.py --workflow agents/read_only/skill_generation_agent/scripts/run_agent.py --input 'name: my-auto-skill'"
                 }
               }
             ]
@@ -97,7 +97,7 @@
               {
                 "name": "run_command",
                 "args": {
-                  "CommandLine": "python workflows/read_only/skill_generation_workflow/scripts/run_workflow.py --input 'name: my-auto-skill'"
+                  "CommandLine": "python agents/run.py --workflow agents/read_only/skill_generation_agent/scripts/run_agent.py --input 'name: my-auto-skill'"
                 }
               }
             ]

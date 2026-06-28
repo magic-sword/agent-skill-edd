@@ -29,7 +29,7 @@
               {
                 "name": "run_command",
                 "args": {
-                  "CommandLine": "python workflows/read_only/skill_promotion_workflow/scripts/run_workflow.py --input 'csv_converter'"
+                  "CommandLine": "python agents/run.py --workflow agents/read_only/skill_promotion_agent/scripts/run_agent.py --input 'csv_converter'"
                 }
               }
             ]
@@ -63,7 +63,7 @@
               {
                 "name": "run_command",
                 "args": {
-                  "CommandLine": "python workflows/read_only/skill_promotion_workflow/scripts/run_workflow.py --input 'csv_converter'"
+                  "CommandLine": "python agents/run.py --workflow agents/read_only/skill_promotion_agent/scripts/run_agent.py --input 'csv_converter'"
                 }
               }
             ]
@@ -97,7 +97,7 @@
               {
                 "name": "run_command",
                 "args": {
-                  "CommandLine": "python workflows/read_only/skill_promotion_workflow/scripts/run_workflow.py --input 'csv_converter'"
+                  "CommandLine": "python agents/run.py --workflow agents/read_only/skill_promotion_agent/scripts/run_agent.py --input 'csv_converter'"
                 }
               }
             ]
