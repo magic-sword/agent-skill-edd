@@ -1,17 +1,17 @@
 {
-  "eval_set_id": "skill_promotion_workflow_test_set",
-  "name": "skill-promotion-workflow test set",
-  "description": "Evaluation set for skill-promotion-workflow workflow",
+  "eval_set_id": "{{workflow_name_underscore}}_test_set",
+  "name": "{{workflow_name}} test set",
+  "description": "Evaluation set for {{workflow_name}} agent",
   "eval_cases": [
     {
-      "eval_id": "skill_promotion_workflow_case_001_positive",
+      "eval_id": "{{workflow_name_underscore}}_case_001_positive",
       "conversation": [
         {
           "invocation_id": "invocation_001",
           "user_content": {
             "parts": [
               {
-                "text": "csv_converter"
+                "text": "{{test_input_1}}"
               }
             ],
             "role": "user"
@@ -19,7 +19,7 @@
           "final_response": {
             "parts": [
               {
-                "text": "skill-promotion-workflow output"
+                "text": "{{expected_output_1}}"
               }
             ],
             "role": "model"
@@ -27,9 +27,9 @@
           "intermediate_data": {
             "tool_uses": [
               {
-                "name": "run_command",
+                "name": "{{expected_tool_1}}",
                 "args": {
-                  "CommandLine": "python agents/run.py --agent-script agents/read_only/skill_promotion_agent/scripts/agent.py --input 'csv_converter'"
+                  "{{arg_name_1}}": "{{arg_value_1}}"
                 }
               }
             ]
@@ -38,14 +38,14 @@
       ]
     },
     {
-      "eval_id": "skill_promotion_workflow_case_002_positive",
+      "eval_id": "{{workflow_name_underscore}}_case_002_positive",
       "conversation": [
         {
           "invocation_id": "invocation_002",
           "user_content": {
             "parts": [
               {
-                "text": "Run the skill-promotion-workflow workflow on input sample"
+                "text": "Run the {{workflow_name}} agent on input sample"
               }
             ],
             "role": "user"
@@ -53,7 +53,7 @@
           "final_response": {
             "parts": [
               {
-                "text": "skill-promotion-workflow output"
+                "text": "{{expected_output_1}}"
               }
             ],
             "role": "model"
@@ -61,9 +61,9 @@
           "intermediate_data": {
             "tool_uses": [
               {
-                "name": "run_command",
+                "name": "{{expected_tool_1}}",
                 "args": {
-                  "CommandLine": "python agents/run.py --agent-script agents/read_only/skill_promotion_agent/scripts/agent.py --input 'csv_converter'"
+                  "{{arg_name_1}}": "{{arg_value_1}}"
                 }
               }
             ]
@@ -72,14 +72,14 @@
       ]
     },
     {
-      "eval_id": "skill_promotion_workflow_case_003_positive",
+      "eval_id": "{{workflow_name_underscore}}_case_003_positive",
       "conversation": [
         {
           "invocation_id": "invocation_003",
           "user_content": {
             "parts": [
               {
-                "text": "Execute skill-promotion-workflow"
+                "text": "Execute {{workflow_name}}"
               }
             ],
             "role": "user"
@@ -87,7 +87,7 @@
           "final_response": {
             "parts": [
               {
-                "text": "skill-promotion-workflow output"
+                "text": "{{expected_output_1}}"
               }
             ],
             "role": "model"
@@ -95,9 +95,9 @@
           "intermediate_data": {
             "tool_uses": [
               {
-                "name": "run_command",
+                "name": "{{expected_tool_1}}",
                 "args": {
-                  "CommandLine": "python agents/run.py --agent-script agents/read_only/skill_promotion_agent/scripts/agent.py --input 'csv_converter'"
+                  "{{arg_name_1}}": "{{arg_value_1}}"
                 }
               }
             ]
@@ -106,14 +106,14 @@
       ]
     },
     {
-      "eval_id": "skill_promotion_workflow_case_004_negative",
+      "eval_id": "{{workflow_name_underscore}}_case_004_negative",
       "conversation": [
         {
           "invocation_id": "invocation_004",
           "user_content": {
             "parts": [
               {
-                "text": "How to cook ramen?"
+                "text": "{{negative_test_input_1}}"
               }
             ],
             "role": "user"
@@ -121,7 +121,7 @@
           "final_response": {
             "parts": [
               {
-                "text": "This workflow does not support general questions."
+                "text": "{{negative_expected_output_1}}"
               }
             ],
             "role": "model"
@@ -133,7 +133,7 @@
       ]
     },
     {
-      "eval_id": "skill_promotion_workflow_case_005_negative",
+      "eval_id": "{{workflow_name_underscore}}_case_005_negative",
       "conversation": [
         {
           "invocation_id": "invocation_005",
@@ -148,7 +148,7 @@
           "final_response": {
             "parts": [
               {
-                "text": "This workflow does not support general questions."
+                "text": "{{negative_expected_output_1}}"
               }
             ],
             "role": "model"
@@ -160,7 +160,7 @@
       ]
     },
     {
-      "eval_id": "skill_promotion_workflow_case_006_negative",
+      "eval_id": "{{workflow_name_underscore}}_case_006_negative",
       "conversation": [
         {
           "invocation_id": "invocation_006",
@@ -175,7 +175,7 @@
           "final_response": {
             "parts": [
               {
-                "text": "This workflow does not support general questions."
+                "text": "{{negative_expected_output_1}}"
               }
             ],
             "role": "model"

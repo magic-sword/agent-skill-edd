@@ -1,17 +1,17 @@
 {
-  "eval_set_id": "skill_promotion_workflow_test_set",
-  "name": "skill-promotion-workflow test set",
-  "description": "Evaluation set for skill-promotion-workflow workflow",
+  "eval_set_id": "agent_evaluator_test_set",
+  "name": "agent_evaluator test set",
+  "description": "Evaluation set for agent-evaluator meta-skill",
   "eval_cases": [
     {
-      "eval_id": "skill_promotion_workflow_case_001_positive",
+      "eval_id": "agent_evaluator_case_001_positive",
       "conversation": [
         {
           "invocation_id": "invocation_001",
           "user_content": {
             "parts": [
               {
-                "text": "csv_converter"
+                "text": "data-processing-agent の品質を評価してください。"
               }
             ],
             "role": "user"
@@ -19,7 +19,7 @@
           "final_response": {
             "parts": [
               {
-                "text": "skill-promotion-workflow output"
+                "text": "評価が正常に完了し、合格しました。"
               }
             ],
             "role": "model"
@@ -29,7 +29,7 @@
               {
                 "name": "run_command",
                 "args": {
-                  "CommandLine": "python agents/run.py --agent-script agents/read_only/skill_promotion_agent/scripts/agent.py --input 'csv_converter'"
+                  "CommandLine": "python skills/action_allowed/agent_evaluator/scripts/evaluate_agent.py --agent data-processing-agent --target-tier draft_only"
                 }
               }
             ]
@@ -38,14 +38,14 @@
       ]
     },
     {
-      "eval_id": "skill_promotion_workflow_case_002_positive",
+      "eval_id": "agent_evaluator_case_002_positive",
       "conversation": [
         {
           "invocation_id": "invocation_002",
           "user_content": {
             "parts": [
               {
-                "text": "Run the skill-promotion-workflow workflow on input sample"
+                "text": "agents/draft_only 配下にある data-processing-agent を action_allowed 基準でテストして。"
               }
             ],
             "role": "user"
@@ -53,7 +53,7 @@
           "final_response": {
             "parts": [
               {
-                "text": "skill-promotion-workflow output"
+                "text": "評価が完了しました。"
               }
             ],
             "role": "model"
@@ -63,7 +63,7 @@
               {
                 "name": "run_command",
                 "args": {
-                  "CommandLine": "python agents/run.py --agent-script agents/read_only/skill_promotion_agent/scripts/agent.py --input 'csv_converter'"
+                  "CommandLine": "python skills/action_allowed/agent_evaluator/scripts/evaluate_agent.py --agent data-processing-agent --target-tier action_allowed"
                 }
               }
             ]
@@ -72,14 +72,14 @@
       ]
     },
     {
-      "eval_id": "skill_promotion_workflow_case_003_positive",
+      "eval_id": "agent_evaluator_case_003_positive",
       "conversation": [
         {
           "invocation_id": "invocation_003",
           "user_content": {
             "parts": [
               {
-                "text": "Execute skill-promotion-workflow"
+                "text": "新しく作った api-log-agent の E2E および実行軌跡（Tool Trajectory）評価を実行して。"
               }
             ],
             "role": "user"
@@ -87,7 +87,7 @@
           "final_response": {
             "parts": [
               {
-                "text": "skill-promotion-workflow output"
+                "text": "評価を実行しました。"
               }
             ],
             "role": "model"
@@ -97,7 +97,7 @@
               {
                 "name": "run_command",
                 "args": {
-                  "CommandLine": "python agents/run.py --agent-script agents/read_only/skill_promotion_agent/scripts/agent.py --input 'csv_converter'"
+                  "CommandLine": "python skills/action_allowed/agent_evaluator/scripts/evaluate_agent.py --agent api-log-agent --target-tier draft_only"
                 }
               }
             ]
@@ -106,14 +106,14 @@
       ]
     },
     {
-      "eval_id": "skill_promotion_workflow_case_004_negative",
+      "eval_id": "agent_evaluator_case_004_negative",
       "conversation": [
         {
           "invocation_id": "invocation_004",
           "user_content": {
             "parts": [
               {
-                "text": "How to cook ramen?"
+                "text": "美味しいラーメンの作り方を教えてください。"
               }
             ],
             "role": "user"
@@ -121,7 +121,7 @@
           "final_response": {
             "parts": [
               {
-                "text": "This workflow does not support general questions."
+                "text": "このスキルはエージェントの評価のみをサポートしています。"
               }
             ],
             "role": "model"
@@ -133,14 +133,14 @@
       ]
     },
     {
-      "eval_id": "skill_promotion_workflow_case_005_negative",
+      "eval_id": "agent_evaluator_case_005_negative",
       "conversation": [
         {
           "invocation_id": "invocation_005",
           "user_content": {
             "parts": [
               {
-                "text": "How do I install Python?"
+                "text": "PythonでASTを解析する方法を説明してください。"
               }
             ],
             "role": "user"
@@ -148,7 +148,7 @@
           "final_response": {
             "parts": [
               {
-                "text": "This workflow does not support general questions."
+                "text": "このスキルはエージェントの評価のみをサポートしています。"
               }
             ],
             "role": "model"
@@ -160,14 +160,14 @@
       ]
     },
     {
-      "eval_id": "skill_promotion_workflow_case_006_negative",
+      "eval_id": "agent_evaluator_case_006_negative",
       "conversation": [
         {
           "invocation_id": "invocation_006",
           "user_content": {
             "parts": [
               {
-                "text": "Tell me a joke"
+                "text": "単純な csv_converter スキルのトリガー精度を評価して。"
               }
             ],
             "role": "user"
@@ -175,7 +175,7 @@
           "final_response": {
             "parts": [
               {
-                "text": "This workflow does not support general questions."
+                "text": "単一スキルの評価は skill-evaluator を使用してください。本スキルは複数スキルを繋ぐDAGエージェントの評価専用です。"
               }
             ],
             "role": "model"

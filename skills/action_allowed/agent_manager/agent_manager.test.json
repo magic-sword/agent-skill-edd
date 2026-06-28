@@ -1,17 +1,17 @@
 {
-  "eval_set_id": "skill_promotion_workflow_test_set",
-  "name": "skill-promotion-workflow test set",
-  "description": "Evaluation set for skill-promotion-workflow workflow",
+  "eval_set_id": "agent_manager_test_set",
+  "name": "agent_manager test set",
+  "description": "Evaluation set for agent-manager meta-skill",
   "eval_cases": [
     {
-      "eval_id": "skill_promotion_workflow_case_001_positive",
+      "eval_id": "agent_manager_case_001_positive",
       "conversation": [
         {
           "invocation_id": "invocation_001",
           "user_content": {
             "parts": [
               {
-                "text": "csv_converter"
+                "text": "data-processing-agent を draft_only から read_only に昇格させてください。"
               }
             ],
             "role": "user"
@@ -19,7 +19,7 @@
           "final_response": {
             "parts": [
               {
-                "text": "skill-promotion-workflow output"
+                "text": "エージェント 'data-processing-agent' を 'read_only' に昇格しました。"
               }
             ],
             "role": "model"
@@ -29,7 +29,7 @@
               {
                 "name": "run_command",
                 "args": {
-                  "CommandLine": "python agents/run.py --agent-script agents/read_only/skill_promotion_agent/scripts/agent.py --input 'csv_converter'"
+                  "CommandLine": "python skills/action_allowed/agent_manager/scripts/manage_agents.py promote --agent data-processing-agent --to read_only"
                 }
               }
             ]
@@ -38,14 +38,14 @@
       ]
     },
     {
-      "eval_id": "skill_promotion_workflow_case_002_positive",
+      "eval_id": "agent_manager_case_002_positive",
       "conversation": [
         {
           "invocation_id": "invocation_002",
           "user_content": {
             "parts": [
               {
-                "text": "Run the skill-promotion-workflow workflow on input sample"
+                "text": "エージェントライブラリの一覧を表示して。"
               }
             ],
             "role": "user"
@@ -53,7 +53,7 @@
           "final_response": {
             "parts": [
               {
-                "text": "skill-promotion-workflow output"
+                "text": "エージェント一覧を表示します。"
               }
             ],
             "role": "model"
@@ -63,7 +63,7 @@
               {
                 "name": "run_command",
                 "args": {
-                  "CommandLine": "python agents/run.py --agent-script agents/read_only/skill_promotion_agent/scripts/agent.py --input 'csv_converter'"
+                  "CommandLine": "python skills/action_allowed/agent_manager/scripts/manage_agents.py list"
                 }
               }
             ]
@@ -72,14 +72,14 @@
       ]
     },
     {
-      "eval_id": "skill_promotion_workflow_case_003_positive",
+      "eval_id": "agent_manager_case_003_positive",
       "conversation": [
         {
           "invocation_id": "invocation_003",
           "user_content": {
             "parts": [
               {
-                "text": "Execute skill-promotion-workflow"
+                "text": "api-log-agent を action_allowed から read_only に降格させて。"
               }
             ],
             "role": "user"
@@ -87,7 +87,7 @@
           "final_response": {
             "parts": [
               {
-                "text": "skill-promotion-workflow output"
+                "text": "エージェントを降格しました。"
               }
             ],
             "role": "model"
@@ -97,7 +97,7 @@
               {
                 "name": "run_command",
                 "args": {
-                  "CommandLine": "python agents/run.py --agent-script agents/read_only/skill_promotion_agent/scripts/agent.py --input 'csv_converter'"
+                  "CommandLine": "python skills/action_allowed/agent_manager/scripts/manage_agents.py demote --agent api-log-agent --to read_only"
                 }
               }
             ]
@@ -106,14 +106,14 @@
       ]
     },
     {
-      "eval_id": "skill_promotion_workflow_case_004_negative",
+      "eval_id": "agent_manager_case_004_negative",
       "conversation": [
         {
           "invocation_id": "invocation_004",
           "user_content": {
             "parts": [
               {
-                "text": "How to cook ramen?"
+                "text": "美味しいラーメンの作り方を教えてください。"
               }
             ],
             "role": "user"
@@ -121,7 +121,7 @@
           "final_response": {
             "parts": [
               {
-                "text": "This workflow does not support general questions."
+                "text": "このスキルはエージェントの管理のみをサポートしています。"
               }
             ],
             "role": "model"
@@ -133,14 +133,14 @@
       ]
     },
     {
-      "eval_id": "skill_promotion_workflow_case_005_negative",
+      "eval_id": "agent_manager_case_005_negative",
       "conversation": [
         {
           "invocation_id": "invocation_005",
           "user_content": {
             "parts": [
               {
-                "text": "How do I install Python?"
+                "text": "Pythonのshutil.moveの使い方を説明してください。"
               }
             ],
             "role": "user"
@@ -148,7 +148,7 @@
           "final_response": {
             "parts": [
               {
-                "text": "This workflow does not support general questions."
+                "text": "このスキルはエージェントの管理のみをサポートしています。"
               }
             ],
             "role": "model"
@@ -160,14 +160,14 @@
       ]
     },
     {
-      "eval_id": "skill_promotion_workflow_case_006_negative",
+      "eval_id": "agent_manager_case_006_negative",
       "conversation": [
         {
           "invocation_id": "invocation_006",
           "user_content": {
             "parts": [
               {
-                "text": "Tell me a joke"
+                "text": "通常のスキル csv-converter を promote して。"
               }
             ],
             "role": "user"
@@ -175,7 +175,7 @@
           "final_response": {
             "parts": [
               {
-                "text": "This workflow does not support general questions."
+                "text": "スキルの管理は skill-manager を使用してください。本スキルはエージェントの管理専用です。"
               }
             ],
             "role": "model"

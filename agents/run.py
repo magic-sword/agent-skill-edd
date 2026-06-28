@@ -38,9 +38,10 @@ def load_agent_module(agent_path: str):
 async def run_main():
     parser = argparse.ArgumentParser(description="Google ADK エージェントを実行する共通エントリーポイント。")
     parser.add_argument(
-        "--workflow", 
+        "--agent-script", "--workflow", "--agent",
+        dest="agent_script",
         required=True, 
-        help="実行するエージェントスクリプトのパス (例: ./agents/draft_only/skill_promotion_agent/scripts/run_agent.py)"
+        help="実行するエージェント定義スクリプトのパス (例: ./agents/draft_only/skill_promotion_agent/agent.py)"
     )
     parser.add_argument(
         "--input", 
@@ -66,13 +67,13 @@ async def run_main():
     args = parser.parse_args()
 
     # 1. エージェントスクリプトのロード
-    module = load_agent_module(args.workflow)
+    module = load_agent_module(args.agent_script)
     
     # 必要スキルのリストとファクトリ関数を取得
     required_skills = getattr(module, "REQUIRED_SKILLS", [])
     create_agent = getattr(module, "create_agent", None)
     if create_agent is None:
-        raise AttributeError(f"エージェントスクリプト {args.workflow} に 'create_agent' 関数が定義されていません。")
+        raise AttributeError(f"エージェントスクリプト {args.agent_script} に 'create_agent' 関数が定義されていません。")
 
     # 2. skill_manager からのツール解決
     # パスが可変なため、動的に sys.path に追加して loader.py をインポート
@@ -88,25 +89,18 @@ async def run_main():
     # 必要最小限のツールセットを構築
     toolset = get_library_toolset_for_workflow(required_names=required_skills, min_tier=args.min_tier)
 
-    # 3. サブエージェントの構築
-    sub_agent = create_agent(tools=toolset)
+    # 3. サブエージェント（WorkflowまたはAgent）の構築
+    # 解決された SkillToolset をリスト形式 [toolset] で渡します。
+    sub_agent = create_agent(tools=[toolset])
 
-    # 4. メイン（コーディネーター）エージェントの構築
-    main_agent = Agent(
-        name="main_coordinator_agent",
-        model="gemini-flash-latest",
-        instruction="あなたは全体を調整するコーディネーターエージェントです。ユーザーの要望を受け取り、適切なサブエージェントにタスクを委譲して実行させ、その結果をそのまま返してください。",
-        sub_agents=[sub_agent]
-    )
-
-    # 5. App および Runner の構築
+    # 4. App および Runner の構築
     app = App(
         name="agent_execution_app",
-        root_agent=main_agent
+        root_agent=sub_agent
     )
     runner = InMemoryRunner(app=app)
 
-    print(f"--- サブエージェント実行開始: {sub_agent.name} ---")
+    print(f"--- 実行開始: {sub_agent.name} ---")
     try:
         result = await runner.run_debug(args.input)
         print("サブエージェントが正常に完了しました。")

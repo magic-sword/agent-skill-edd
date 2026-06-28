@@ -29,7 +29,7 @@
               {
                 "name": "run_command",
                 "args": {
-                  "CommandLine": "python agents/run.py --workflow agents/read_only/agent_promotion_agent/scripts/run_agent.py --input skill_generation_agent --output output.json"
+                  "CommandLine": "python agents/run.py --agent-script agents/read_only/agent_promotion_agent/scripts/agent.py --input skill_generation_agent --output output.json"
                 }
               }
             ]
@@ -63,7 +63,7 @@
               {
                 "name": "run_command",
                 "args": {
-                  "CommandLine": "python agents/run.py --workflow agents/read_only/agent_promotion_agent/scripts/run_agent.py --input skill_generation_agent --output output.json"
+                  "CommandLine": "python agents/run.py --agent-script agents/read_only/agent_promotion_agent/scripts/agent.py --input skill_generation_agent --output output.json"
                 }
               }
             ]
@@ -97,7 +97,7 @@
               {
                 "name": "run_command",
                 "args": {
-                  "CommandLine": "python agents/run.py --workflow agents/read_only/agent_promotion_agent/scripts/run_agent.py --input skill_generation_agent --output output.json"
+                  "CommandLine": "python agents/run.py --agent-script agents/read_only/agent_promotion_agent/scripts/agent.py --input skill_generation_agent --output output.json"
                 }
               }
             ]
