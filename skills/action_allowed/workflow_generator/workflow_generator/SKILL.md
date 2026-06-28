@@ -1,5 +1,5 @@
 ---
-name: workflow-generator
+name: workflow_generator
 description: |
   複数の個別スキルをDAG（有向非巡回グラフ）で接続し、状態のデカップリング（一時JSONファイル）を用いて
   複雑な処理を行う ADK v2.3.0 準拠の連携ワークフローを自動的に構築します。
@@ -9,9 +9,7 @@ description: |
   すでに存在するスキルやワークフローを変更・削除する場合は使用しないでください。
 version: 1.0.0
 license: MIT
-allowed-tools:
-  - write_to_file
-  - run_command
+allowed-tools: "write_to_file run_command"
 adk-version: 2.3.0
 require-latest-adk-validation: true
 ---

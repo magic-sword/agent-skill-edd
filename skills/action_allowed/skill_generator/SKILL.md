@@ -1,5 +1,5 @@
 ---
-name: skill-generator
+name: skill_generator
 description: |
   ユーザーの要望に基づいて、新しいエージェント用の「Skill」を自動的に構築します。
   新しいスキルフォルダを指定された配置場所（デフォルトは ./skills/read_only、または引数や設定JSONの output_dir で指定されたパス）配下に作成し、
@@ -9,9 +9,7 @@ description: |
   すでに存在するスキルを変更・削除する場合は使用しないでください。
 version: 1.0.0
 license: MIT
-allowed-tools:
-  - write_to_file
-  - run_command
+allowed-tools: "write_to_file run_command"
 adk-version: 2.3.0
 require-latest-adk-validation: true
 ---

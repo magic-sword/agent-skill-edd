@@ -1,12 +1,11 @@
 ---
-name: skill-manager
+name: skill_manager
 description: |
   エージェント用スキルライブラリの管理、および各スキルのTier（Read-Only, Draft-Only, Action-Allowed）の変更（昇格・降格）を行います。
   ライブラリ内のすべてのスキルをTierごとに一覧表示することも可能です。
 version: 1.0.0
 license: MIT
-allowed-tools:
-  - run_command
+allowed-tools: "run_command"
 ---
 
 # Skill Manager
@@ -51,3 +50,17 @@ allowed-tools:
 
 ### 4. 実行後の報告
 コマンドの実行結果（どのフォルダからどのフォルダに移動したか）をユーザーに報告します。
+
+### 5. スキルのロード (Loading Skills)
+`scripts/loader.py` を使用して、指定した `min_tier` 以上のスキルを Google ADK の `SkillToolset` として読み込みます。
+
+- **Pythonスクリプトからの利用例**:
+  ```python
+  from skills.action_allowed.skill_manager.scripts.loader import get_library_toolset
+
+  # 'draft_only' 以上のスキル（'draft_only', 'action_allowed'）を読み込みます
+  toolset = get_library_toolset(min_tier="draft_only")
+
+  # エージェントの tools に渡します
+  # agent = Agent(..., tools=toolset)
+  ```

@@ -175,48 +175,24 @@ def promote_target_workflow(node_input: str) -> Event:
 # --- WORKFLOW GRAPH START ---
 # scaffold_workflow.pyによって有向エッジとWorkflowオブジェクトが定義されます。
 
-root_agent = Workflow(
-    name="workflow_promotion_workflow",
-    edges=[
-        ("START", find_target_workflow, evaluate_target_workflow, promote_target_workflow)
-    ]
-)
+REQUIRED_SKILLS = ["workflow-evaluator", "workflow-manager"]
+
+def create_agent(tools) -> Agent:
+    """
+    ワークフロー昇格ワークフローを実行するためのサブエージェントを構築します。
+    """
+    workflow = Workflow(
+        name="workflow_promotion_workflow",
+        edges=[
+            ("START", find_target_workflow, evaluate_target_workflow, promote_target_workflow)
+        ]
+    )
+    return Agent(
+        name="workflow_promotion_agent",
+        model="gemini-flash-latest",
+        instruction="あなたはワークフロー昇格エージェントです。サブエージェントであるワークフローを使用して、指定されたワークフローの評価および昇格処理を実行してください。",
+        tools=tools,
+        sub_agents=[workflow]
+    )
 
 # --- WORKFLOW GRAPH END ---
-
-app = App(
-    name="workflow_promotion_workflow_app",
-    root_agent=root_agent
-)
-
-async def run_main():
-    parser = argparse.ArgumentParser(description="Run workflow-promotion-workflow workflow.")
-    parser.add_argument("--input", required=True, help="Input raw text or path to input JSON file")
-    parser.add_argument("--output", default="output.json", help="Output file path for the workflow results")
-    args = parser.parse_args()
-    
-    runner = InMemoryRunner(app=app)
-    
-    try:
-        # ワークフローの実行
-        result = await runner.run_debug(args.input)
-        print("Workflow completed successfully.")
-        print(f"Final output pointer/result: {result}")
-        
-        # 最終結果が一時ファイルパスであれば、中身を読み取って出力ファイルに保存する
-        output_data = {}
-        if isinstance(result, str) and os.path.exists(result):
-            output_data = read_node_input(result)
-        else:
-            output_data = {"result": str(result)}
-            
-        with open(args.output, "w", encoding="utf-8") as f:
-            json.dump(output_data, f, indent=2, ensure_ascii=False)
-        print(f"Results written to: {args.output}")
-            
-    except Exception as e:
-        print(f"Error during workflow execution: {e}")
-        raise e
-
-if __name__ == "__main__":
-    asyncio.run(run_main())

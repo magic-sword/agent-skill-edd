@@ -6,8 +6,7 @@ description: |
   Do NOT use for {{anti_trigger_actions}}.
 version: 1.0.0
 license: MIT
-allowed-tools:
-  - {{allowed_tools}}
+allowed-tools: "{{allowed_tools}}"
 metadata:
   author: {{author}}
 ---

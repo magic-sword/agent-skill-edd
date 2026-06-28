@@ -1,13 +1,12 @@
 ---
-name: workflow-manager
+name: workflow_manager
 description: |
   ワークフローライブラリ内のすべてのワークフローを管理します。
   各ワークフローのTier（Draft-Only, Read-Only, Action-Allowed）の移動（昇格・降格）、
   およびすべてのワークフローを一覧表示することが可能です。
 version: 1.0.0
 license: MIT
-allowed-tools:
-  - run_command
+allowed-tools: "run_command"
 adk-version: 2.3.0
 require-latest-adk-validation: true
 ---

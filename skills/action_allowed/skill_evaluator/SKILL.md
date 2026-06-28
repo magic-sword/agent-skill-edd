@@ -1,13 +1,12 @@
 ---
-name: skill-evaluator
+name: skill_evaluator
 description: |
   エージェント用スキルの評価を実行します。
   静的コード検証（YAMLフロントマッター、本文語数）、テストケース数（Unit-Test 3件以上、Golden 20件以上、Positive/Negativeトリガー比率）、
   およびGemini APIを利用したトリガー安定性の検証（LLM-as-Judge）と手動プロセスチェックリストの評価を行います。
 version: 1.0.0
 license: MIT
-allowed-tools:
-  - run_command
+allowed-tools: "run_command"
 adk-version: 2.3.0
 require-latest-adk-validation: true
 ---

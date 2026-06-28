@@ -1,5 +1,5 @@
 ---
-name: workflow-evaluator
+name: workflow_evaluator
 description: |
   ワークフローライブラリ内のワークフローの品質および挙動の評価を実行します。
   静的コード検証（SKILL.md構造、フロントマッター）、テストケース数（Unit-Test 3件以上、Positive/Negativeトリガー比率）、
@@ -8,8 +8,7 @@ description: |
   ワークフローでは ANY_ORDER による曖昧な評価を禁止する整合性チェックを含みます。
 version: 1.0.0
 license: MIT
-allowed-tools:
-  - run_command
+allowed-tools: "run_command"
 adk-version: 2.3.0
 require-latest-adk-validation: true
 ---
