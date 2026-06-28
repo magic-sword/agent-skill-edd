@@ -3,8 +3,8 @@ name: workflow_generator
 description: |
   複数の個別スキルをDAG（有向非巡回グラフ）で接続し、状態のデカップリング（一時JSONファイル）を用いて
   複雑な処理を行う ADK v2.3.0 準拠の連携ワークフローを自動的に構築します。
-  新しいワークフローフォルダを指定された配置場所（デフォルトは ./workflows/read_only、または引数や設定JSONの output_dir で指定されたパス）配下に作成し、YAMLフロントマッターを含む SKILL.md、
-  DAG接続スクリプト（run_workflow.py）、テストケース（[workflow_name].test.json）、
+  新しいエージェントフォルダを指定された配置場所（デフォルトは ./agents/read_only、または引数や設定JSONの output_dir で指定されたパス）配下に作成し、YAMLフロントマッターを含む SKILL.md、
+  DAG接続スクリプト（run_agent.py）、テストケース（[workflow_name].test.json）、
   評価Criteria（test_config.json）、環境シミュレーション構成（env_simulation_config.json）を生成します。
   すでに存在するスキルやワークフローを変更・削除する場合は使用しないでください。
 version: 1.0.0
@@ -60,7 +60,7 @@ def my_node(node_input: str) -> Event:
 - `expected_output_1`: 期待される最終出力。
 - `expected_tool_1`: 実行に使用するツール（通常 `run_command`）。
 - `arg_name_1`: `CommandLine`
-- `arg_value_1`: `python workflows/draft_only/[workflow_dir]/scripts/run_workflow.py --input [test_input]`
+- `arg_value_1`: `python agents/run.py --workflow agents/draft_only/[agent_dir]/scripts/run_agent.py --input [test_input]`
 
 ### 4. 設定ファイルの書き出し
 PowerShell のエスケープ問題を回避するため、定義した内容を一時的なJSONファイルに UTF-8 で保存します。
@@ -87,7 +87,7 @@ PowerShell のエスケープ問題を回避するため、定義した内容を
       "expected_output_1": "...",
       "expected_tool_1": "run_command",
       "arg_name_1": "CommandLine",
-      "arg_value_1": "python workflows/draft_only/csv_parser_workflow/scripts/run_workflow.py --input ...",
+      "arg_value_1": "python agents/run.py --workflow agents/draft_only/csv_parser_agent/scripts/run_agent.py --input ...",
       "negative_test_input_1": "...",
       "negative_expected_output_1": "..."
     }

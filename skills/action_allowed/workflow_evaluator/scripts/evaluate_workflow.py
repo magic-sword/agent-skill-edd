@@ -19,7 +19,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Evaluate a Workflow against ADK v2.3.0 library standards.")
     parser.add_argument("--workflow", required=True, help="Name of the workflow (kebab-case or directory name)")
     parser.add_argument("--target-tier", choices=TIERS, default="draft_only", help="The Tier you want to graduate this workflow to")
-    parser.add_argument("--base-dir", default="./workflows", help="Parent directory of the workflows library")
+    parser.add_argument("--base-dir", default="./agents", help="Parent directory of the agents library")
     return parser.parse_args()
 
 def main():

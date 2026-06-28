@@ -16,11 +16,11 @@ LIBRARY_CONFIG = {
     },
     "workflows": {
         "tiers": TIERS,
-        "base_dir": "./workflows",
+        "base_dir": "./agents",
         "paths": {
-            "draft_only": "./workflows/draft_only",
-            "read_only": "./workflows/read_only",
-            "action_allowed": "./workflows/action_allowed"
+            "draft_only": "./agents/draft_only",
+            "read_only": "./agents/read_only",
+            "action_allowed": "./agents/action_allowed"
         }
     }
 }

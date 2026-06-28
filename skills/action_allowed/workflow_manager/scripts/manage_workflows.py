@@ -40,7 +40,7 @@ def get_workflow_metadata(workflow_path):
         pass
     return None
 
-def find_workflow(workflow_name, base_dir="./workflows"):
+def find_workflow(workflow_name, base_dir="./agents"):
     normalized_names = {
         workflow_name.replace("_", "-"),
         workflow_name.replace("-", "_")
@@ -59,7 +59,7 @@ def find_workflow(workflow_name, base_dir="./workflows"):
                     return tier, item, item_path
     return None, None, None
 
-def list_workflows(base_dir="./workflows"):
+def list_workflows(base_dir="./agents"):
     print("=== Workflows Library ===")
     for tier in TIERS:
         print(f"\n[{tier.upper()}]")
@@ -79,7 +79,7 @@ def list_workflows(base_dir="./workflows"):
                 else:
                     print(f"  - {item}/ (No SKILL.md or invalid metadata)")
 
-def move_workflow(workflow_name, target_tier, base_dir="./workflows"):
+def move_workflow(workflow_name, target_tier, base_dir="./agents"):
     current_tier, dir_name, current_path = find_workflow(workflow_name, base_dir)
     if not current_path:
         print(f"Error: Workflow '{workflow_name}' not found in library.")
@@ -101,7 +101,7 @@ def move_workflow(workflow_name, target_tier, base_dir="./workflows"):
 
 def main():
     args = parse_args()
-    base_dir = "./workflows"
+    base_dir = "./agents"
     
     try:
         import yaml

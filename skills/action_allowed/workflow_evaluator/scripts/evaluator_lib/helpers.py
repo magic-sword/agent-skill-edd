@@ -24,7 +24,7 @@ def get_workflow_metadata(workflow_path: str) -> Tuple[Dict[str, Any], str, List
         return None, None, [f"Failed to parse SKILL.md metadata: {e}"]
     return None, None, ["Invalid SKILL.md structure (missing frontmatter separator ---)."]
 
-def find_workflow(workflow_name: str, base_dir: str = "./workflows") -> Tuple[str, str, str]:
+def find_workflow(workflow_name: str, base_dir: str = "./agents") -> Tuple[str, str, str]:
     normalized_names = {
         workflow_name.replace("_", "-"),
         workflow_name.replace("-", "_")

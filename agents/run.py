@@ -22,25 +22,25 @@ def read_node_output_file(file_path: str) -> dict:
             print(f"[Warning] 結果ファイル {file_path} の読み込みに失敗しました: {e}")
     return {"result": str(file_path)}
 
-def load_workflow_module(workflow_path: str):
+def load_agent_module(agent_path: str):
     """
-    指定されたファイルパスからワークフローモジュールを動的にインポートします。
+    指定されたファイルパスからエージェントモジュールを動的にインポートします。
     """
-    module_name = "dynamic_workflow_module"
-    spec = importlib.util.spec_from_file_location(module_name, workflow_path)
+    module_name = "dynamic_agent_module"
+    spec = importlib.util.spec_from_file_location(module_name, agent_path)
     if spec is None or spec.loader is None:
-        raise ImportError(f"ワークフロースクリプトが見つかりませんでした: {workflow_path}")
+        raise ImportError(f"エージェントスクリプトが見つかりませんでした: {agent_path}")
     module = importlib.util.module_from_spec(spec)
     sys.modules[module_name] = module
     spec.loader.exec_module(module)
     return module
 
 async def run_main():
-    parser = argparse.ArgumentParser(description="Google ADK ワークフローを実行する共通エントリーポイント。")
+    parser = argparse.ArgumentParser(description="Google ADK エージェントを実行する共通エントリーポイント。")
     parser.add_argument(
         "--workflow", 
         required=True, 
-        help="実行するワークフロースクリプトのパス (例: ./workflows/draft_only/skill_promotion_workflow/scripts/run_workflow.py)"
+        help="実行するエージェントスクリプトのパス (例: ./agents/draft_only/skill_promotion_agent/scripts/run_agent.py)"
     )
     parser.add_argument(
         "--input", 
@@ -65,14 +65,14 @@ async def run_main():
     )
     args = parser.parse_args()
 
-    # 1. ワークフロースクリプトのロード
-    module = load_workflow_module(args.workflow)
+    # 1. エージェントスクリプトのロード
+    module = load_agent_module(args.workflow)
     
     # 必要スキルのリストとファクトリ関数を取得
     required_skills = getattr(module, "REQUIRED_SKILLS", [])
     create_agent = getattr(module, "create_agent", None)
     if create_agent is None:
-        raise AttributeError(f"ワークフロースクリプト {args.workflow} に 'create_agent' 関数が定義されていません。")
+        raise AttributeError(f"エージェントスクリプト {args.workflow} に 'create_agent' 関数が定義されていません。")
 
     # 2. skill_manager からのツール解決
     # パスが可変なため、動的に sys.path に追加して loader.py をインポート
@@ -101,15 +101,15 @@ async def run_main():
 
     # 5. App および Runner の構築
     app = App(
-        name="workflow_execution_app",
+        name="agent_execution_app",
         root_agent=main_agent
     )
     runner = InMemoryRunner(app=app)
 
-    print(f"--- ワークフロー実行開始: {sub_agent.name} ---")
+    print(f"--- サブエージェント実行開始: {sub_agent.name} ---")
     try:
         result = await runner.run_debug(args.input)
-        print("ワークフローが正常に完了しました。")
+        print("サブエージェントが正常に完了しました。")
         print(f"実行結果オブジェクト/パス: {result}")
         
         # 結果が一時ファイルパスであれば、中身を読み取って出力ファイルに保存する
@@ -124,7 +124,7 @@ async def run_main():
         print(f"結果を出力ファイルに保存しました: {args.output}")
             
     except Exception as e:
-        print(f"ワークフローの実行中にエラーが発生しました: {e}")
+        print(f"サブエージェントの実行中にエラーが発生しました: {e}")
         raise e
 
 if __name__ == "__main__":

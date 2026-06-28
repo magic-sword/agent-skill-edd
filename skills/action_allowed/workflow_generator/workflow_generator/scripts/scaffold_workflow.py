@@ -7,7 +7,7 @@ import re
 def parse_args():
     parser = argparse.ArgumentParser(description="Scaffold a new DAG Workflow compliant with ADK v2.3.0.")
     parser.add_argument("--config", required=True, help="Path to a JSON configuration file containing workflow specifications")
-    parser.add_argument("--output-dir", default="./workflows/read_only", help="Parent directory where the workflow will be created")
+    parser.add_argument("--output-dir", default="./agents/read_only", help="Parent directory where the agent will be created")
     return parser.parse_args()
 
 def validate_kebab_case(name):
@@ -94,7 +94,7 @@ require-latest-adk-validation: true
     with open(os.path.join(workflow_dir, "env_simulation_config.json"), "w", encoding="utf-8") as f:
         json.dump(env_sim_config, f, indent=2)
         
-    # 4. Generate run_workflow.py from template
+    # 4. Generate run_agent.py from template
     assets_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     template_path = os.path.join(assets_dir, "assets", "workflow_template.py")
     
@@ -146,24 +146,37 @@ require-latest-adk-validation: true
     edges_code = ",\n".join(edges_lines)
     
     workflow_graph_code = f"""
-root_agent = Workflow(
-    name="{dir_name}",
-    edges=[
+REQUIRED_SKILLS = []  # 必要に応じて依存スキル名を追加してください
+
+def create_agent(tools) -> Agent:
+    \"\"\"
+    エージェントを構築します。
+    \"\"\"
+    workflow = Workflow(
+        name="{dir_name}",
+        edges=[
 {edges_code}
-    ]
-)
+        ]
+    )
+    return Agent(
+        name="{dir_name}_agent",
+        model="gemini-flash-latest",
+        instruction="あなたは {name} エージェントです。サブエージェントであるワークフローを使用してタスクを実行してください。",
+        tools=tools,
+        sub_agents=[workflow]
+    )
 """
     
     # Substitute into template
-    run_workflow_content = (template_content
-                            .replace("{{node_definitions}}", node_definitions)
-                            .replace("{{workflow_graph}}", workflow_graph_code)
-                            .replace("{{workflow_name_underscore}}", dir_name)
-                            .replace("{{workflow_name}}", name))
-                            
-    run_workflow_path = os.path.join(workflow_dir, "scripts", "run_workflow.py")
-    with open(run_workflow_path, "w", encoding="utf-8") as f:
-        f.write(run_workflow_content)
+    run_agent_content = (template_content
+                          .replace("{{node_definitions}}", node_definitions)
+                          .replace("{{workflow_graph}}", workflow_graph_code)
+                          .replace("{{workflow_name_underscore}}", dir_name)
+                          .replace("{{workflow_name}}", name))
+                          
+    run_agent_path = os.path.join(workflow_dir, "scripts", "run_agent.py")
+    with open(run_agent_path, "w", encoding="utf-8") as f:
+        f.write(run_agent_content)
         
     # 5. Write [workflow_name].test.json
     test_template_path = os.path.join(assets_dir, "assets", "workflow_test_set_template.json")
@@ -185,7 +198,7 @@ root_agent = Workflow(
                      .replace("{{expected_output_1}}", test_cases.get("expected_output_1", "Workflow executed successfully."))
                      .replace("{{expected_tool_1}}", test_cases.get("expected_tool_1", "run_command"))
                      .replace("{{arg_name_1}}", test_cases.get("arg_name_1", "CommandLine"))
-                     .replace("{{arg_value_1}}", test_cases.get("arg_value_1", f"python {rel_output_path}/scripts/run_workflow.py --input test"))
+                     .replace("{{arg_value_1}}", test_cases.get("arg_value_1", f"python agents/run.py --workflow {rel_output_path}/scripts/run_agent.py --input test"))
                      .replace("{{negative_test_input_1}}", test_cases.get("negative_test_input_1", "How to cook ramen?"))
                      .replace("{{negative_expected_output_1}}", test_cases.get("negative_expected_output_1", "This workflow does not support general questions.")))
                      
@@ -197,7 +210,7 @@ root_agent = Workflow(
     print(f"  - Created SKILL.md")
     print(f"  - Created test_config.json")
     print(f"  - Created env_simulation_config.json")
-    print(f"  - Created scripts/run_workflow.py")
+    print(f"  - Created scripts/run_agent.py")
     print(f"  - Created {dir_name}.test.json")
 
 if __name__ == "__main__":
